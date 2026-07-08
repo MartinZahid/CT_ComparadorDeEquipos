@@ -69,3 +69,10 @@ class CTAPI:
             "hitsPerPage": datos.get("hitsPerPage", HITS_PER_PAGE),
             "facets": datos.get("facets", {}),
         }
+
+    def get_categories(self) -> list[tuple[str, int]]:
+        """Return sorted [(category_name, count), ...] from facet data."""
+        meta = self.get_meta()
+        facets = meta.get("facets", {})
+        cats = facets.get("categoria", {})
+        return sorted(cats.items(), key=lambda x: -x[1])
