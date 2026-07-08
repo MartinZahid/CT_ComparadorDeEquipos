@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.output/
+edge-session/
+chrome-session/
+playwright-profile/
+node_modules/
+*.json
+*.csv
+*.png
+*.html
+.mjs
+.js
+
+# keep output dir but not its contents
+output/*
+!output/.gitkeep

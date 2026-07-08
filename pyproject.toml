@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "ctonline-scraper"
+version = "1.0.0"
+description = "Extrae catálogo de ctonline.mx bypassing Cloudflare"
+requires-python = ">=3.10"
+dependencies = [
+    "cloudscraper>=1.2.0",
+    "pandas>=2.0.0",
+]
+
+[project.scripts]
+ctonline-scraper = "src.cli:main"
