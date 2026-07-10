@@ -52,8 +52,8 @@ def _extract_storage(product: dict, desc: str, ice_v: str) -> tuple[int, str]:
 
 def _extract_os(product: dict, desc: str) -> str:
     os_val = product.get("sistema_operativo", "")
-    if os_val and os_val != "Unknown":
-        return os_val
+    if os_val:
+        return parse_os(os_val)
     return parse_os(desc)
 
 

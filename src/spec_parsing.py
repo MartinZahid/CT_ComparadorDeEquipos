@@ -92,13 +92,13 @@ def parse_os(text: str) -> str:
     if re.search(r"Chrome\s*OS|ChromeOS|Chrome\s*Book", t, re.I):
         return "ChromeOS"
     t_upper = t.upper()
-    if "WIN 11" in t_upper or "W11" in t_upper or "WINDOWS 11" in t_upper:
+    if re.search(r"WINDOWS\s*11|WIN\s*11|W11", t_upper):
         return "Windows 11"
     if "W IN 11" in t_upper or "W 11 " in t_upper or t_upper.startswith("W 11 "):
         return "Windows 11"
     if re.search(r"WINOWS\s*11|WINDOWSL\s*11", t_upper):
         return "Windows 11"
-    if "WIN 10" in t_upper or "W10" in t_upper or "WINDOWS 10" in t_upper:
+    if re.search(r"WINDOWS\s*10|WIN\s*10|W10", t_upper):
         return "Windows 10"
     if "W 10 " in t_upper or t_upper.startswith("W 10 "):
         return "Windows 10"

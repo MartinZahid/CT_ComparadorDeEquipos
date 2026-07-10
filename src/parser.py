@@ -119,6 +119,12 @@ def _parse_specs_from_html(html: str) -> dict:
                     label += f" {best[1]}"
                 result["disco_detalle"] = label
 
+        # Processor from features (if not in sidebar)
+        if "procesador_familia" not in result and "procesador_modelo" not in result:
+            m = re.search(r"Procesador[:\s]+([^,;]+)", feat_text, re.I)
+            if m:
+                result["procesador_familia"] = m.group(1).strip()
+
     return result
 
 
