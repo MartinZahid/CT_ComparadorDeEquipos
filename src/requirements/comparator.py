@@ -1,6 +1,7 @@
 """Orchestrator: loads scraped JSON, processes each product, writes comparison JSON."""
 
 import json
+from datetime import datetime
 from pathlib import Path
 from collections import Counter
 
@@ -72,8 +73,10 @@ def compare_category(
 
     # Write JSON
     output_json.parent.mkdir(parents=True, exist_ok=True)
+    now = datetime.now().isoformat()
     with open(output_json, "w", encoding="utf-8") as f:
         json.dump({
+            "fecha_generacion": now,
             "requisitos_usados": output.requisitos_usados.to_dict(),
             "resultados": output.resultados,
             "resumen": output.resumen,
