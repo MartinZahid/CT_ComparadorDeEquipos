@@ -3,15 +3,6 @@
 from dataclasses import dataclass, asdict, field
 from typing import Literal
 
-# Shared constants for spec extraction
-MIN_RAM_GB: int = 1
-MAX_RAM_GB: int = 128
-MIN_STORAGE_GB: int = 40
-
-# Preferred RAM values in order of likelihood (for ambiguous descriptions)
-PREFERRED_RAM_VALUES: tuple[int, ...] = (16, 32, 8, 64, 24, 12, 48)
-
-# Classification levels (keep in sync with web-react/src/App.jsx)
 LEVEL_RECOMMENDED = "recommended"
 LEVEL_MINIMOS = "minimos"
 LEVEL_CAPAZ = "capaz"

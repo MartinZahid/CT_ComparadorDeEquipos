@@ -2,7 +2,7 @@
 
 import re
 
-from src.requirements.models import MAX_RAM_GB, MIN_STORAGE_GB
+from src.spec_parsing import findall_gb_tb, find_ram, find_storage, parse_os, parse_single_gb_tb
 
 _PROC_PATTERN = re.compile(
     r"(Intel\s*(?:Core\s*)?(?:\w+\s*)*[\w\d-]+"
@@ -65,47 +65,14 @@ def _parse_specs_from_html(html: str) -> dict:
     """Extract ram, disco_detalle, sistema_operativo from ct-specifics + features."""
     result = {}
 
-    # Helper to find all GB/TB values (excluding MB)
+    # Helper to find all GB/TB values (excluding MB) — reuses findall_gb_tb
     def _find_all_storage(text):
-        matches = list(re.finditer(
-            r"(\d+(?:\.\d+)?)\s*(TB|GB)\s*(SSD|HDD|NVMe|eMMC|M\.2)?",
-            text, re.I,
-        ))
-        candidates = []
-        for m in matches:
-            val = float(m.group(1))
-            unit = m.group(2).upper()
-            stype = m.group(3).upper() if m.group(3) else ""
-            gb = int(val * 1024) if unit == "TB" else int(val)
-            # Skip MB values (anything under 1GB)
-            if unit == "GB" and val < 1:
-                continue
-            candidates.append((gb, stype))
-        return candidates
+        return [(gb, stype) for gb, unit, stype in findall_gb_tb(text)]
 
-    # Helper to find RAM in features text
+    # Helper to find RAM in features text — reuses find_ram
     def _find_ram_in_text(text):
-        pats = [
-            r"(\d+(?:\.\d+)?)\s*GB\s*DDR[345]",
-            r"(\d+(?:\.\d+)?)\s*GB\s*LPDDR[345]",
-            r"(\d+)\s*GB\s*(?:Single|Dual|on\s*board)",
-            r"RAM\s*(\d+(?:\.\d+)?)\s*GB",
-            r"Memoria\s*(\d+(?:\.\d+)?)\s*GB",
-            r"(\d+(?:\.\d+)?)\s*GB\s*de\s*RAM",
-        ]
-        for pat in pats:
-            m = re.search(pat, text, re.I)
-            if m:
-                val = float(m.group(1))
-                if 1 <= val <= MAX_RAM_GB:
-                    return f"{int(val)} GB"
-        # Fallback: find any GB value in typical RAM range
-        vals = re.findall(r"(\d+(?:\.\d+)?)\s*GB", text, re.I)
-        for v in vals:
-            vf = float(v)
-            if 4 <= vf <= MAX_RAM_GB:
-                return f"{int(vf)} GB"
-        return ""
+        gb = find_ram(text)
+        return f"{gb} GB" if gb else ""
 
     # 1. Parse .ct-specifics sidebar rows
     specifics = re.findall(
@@ -166,73 +133,22 @@ def _fetch_specs_from_page(url: str, scraper) -> dict:
 
 def _extract_ram_from_desc(desc: str) -> str:
     """Extract RAM like '8 GB', '16 GB' from description."""
-    if not desc:
-        return ""
-    patterns = [
-        r"RAM\s*(\d+)\s*GB",
-        r"(\d+)\s*GB\s*RAM",
-        r"(\d+)\s*GB\s*DDR[345]",
-        r"(\d+)\s*GB\s*LPDDR[345]",
-        r"Memoria\s*(\d+)\s*GB",
-    ]
-    for pat in patterns:
-        m = re.search(pat, desc, re.I)
-        if m:
-            val = int(m.group(1))
-            if 1 <= val <= MAX_RAM_GB:
-                return f"{val} GB"
-    matches = re.findall(r"(\d+)\s*GB", desc, re.I)
-    for v in matches:
-        v_int = int(v)
-        if 4 <= v_int <= MAX_RAM_GB:
-            return f"{v_int} GB"
-    return ""
+    gb = find_ram(desc)
+    return f"{gb} GB" if gb else ""
 
 
 def _extract_os_from_desc(desc: str) -> str:
     """Extract OS string from description."""
-    if not desc:
-        return ""
-    t = re.sub(r"\s+", " ", desc)
-    if re.search(r"Chrome\s*OS|ChromeOS|Chrome\s*Book", t, re.I):
-        return "ChromeOS"
-    m = re.search(
-        r"(Windows\s*\d+\s*(?:Home|Pro)?"
-        r"|Win\s*\d+\s*(?:Home|Pro)?"
-        r"|W\s*11|W\s*10"
-        r"|WINOWS\s*11|WINDOWSL\s*11"
-        r"|WINOWS\s*10|WINDOWSL\s*10)",
-        t, re.I,
-    )
-    if m:
-        return m.group(1).strip()
-    return ""
+    result = parse_os(desc)
+    return result if result != "Unknown" else ""
 
 
 def _extract_storage_from_desc(desc: str) -> str:
     """Extract storage like '512 GB SSD', '1 TB' from description."""
-    if not desc:
+    gb, stype = find_storage(desc)
+    if not gb:
         return ""
-    matches = list(re.finditer(
-        r"(\d+(?:\.\d+)?)\s*(TB|GB)\s*(SSD|HDD|NVMe|eMMC)?",
-        desc, re.I,
-    ))
-    typed = [m for m in matches if m.group(3) and m.group(3).upper() in ("SSD", "HDD", "NVMe", "EMMC")]
-    if typed:
-        best = max(typed, key=lambda m: float(m.group(1)))
-        val = float(best.group(1))
-        unit = best.group(2).upper()
-        stype = best.group(3).upper()
-        gb = int(val * 1024) if unit == "TB" else int(val)
-        return f"{gb} GB {stype}"
-    large = [m for m in matches if float(m.group(1)) >= MIN_STORAGE_GB or m.group(2).upper() == "TB"]
-    if large:
-        best = max(large, key=lambda m: float(m.group(1)))
-        val = float(best.group(1))
-        unit = best.group(2).upper()
-        gb = int(val * 1024) if unit == "TB" else int(val)
-        return f"{gb} GB"
-    return ""
+    return f"{gb} GB {stype}" if stype != "UNKNOWN" else f"{gb} GB"
 
 
 def parse_hit(hit: dict, scraper) -> dict:
