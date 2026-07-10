@@ -3,21 +3,7 @@
 from src.requirements.models import ProductSpec, RequirementSet, Classification
 
 
-# Requirement thresholds (from user's specs)
-CPU_MIN_GHZ = 3.6
-CPU_MIN_CORES = 4
-CPU_REC_GHZ = 3.6
-CPU_REC_CORES = 4
-RAM_MIN_GB = 8
-RAM_REC_GB = 16
-DISK_MIN_GB = 1
-DISK_REC_GB = 1
-SSD_REQUIRED_BELOW_GB = 128
-OS_MIN = "Windows 10"
-OS_REC = "Windows 11"
-
-
-def check_cpu(spec: ProductSpec) -> tuple[bool, bool, str]:
+def check_cpu(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
     """Returns (meets_min, meets_rec, reason)"""
     if spec.cpu.turbo_ghz is None or spec.cpu.cores is None:
         return False, False, "CPU sin datos técnicos (no está en BD ni heurística)"
@@ -25,69 +11,69 @@ def check_cpu(spec: ProductSpec) -> tuple[bool, bool, str]:
     turbo = spec.cpu.turbo_ghz
     cores = spec.cpu.cores
 
-    meets_min = turbo >= CPU_MIN_GHZ and cores >= CPU_MIN_CORES
-    meets_rec = turbo >= CPU_REC_GHZ and cores >= CPU_REC_CORES
+    meets_min = turbo >= req.cpu.min_ghz and cores >= req.cpu.min_cores
+    meets_rec = turbo >= req.cpu.rec_ghz and cores >= req.cpu.rec_cores
 
     if meets_rec:
-        reason = f"CPU turbo {turbo}GHz >= {CPU_REC_GHZ}GHz, {cores} nucleos >= {CPU_REC_CORES}"
+        reason = f"CPU turbo {turbo}GHz >= {req.cpu.rec_ghz}GHz, {cores} nucleos >= {req.cpu.rec_cores}"
     elif meets_min:
-        reason = f"CPU turbo {turbo}GHz >= {CPU_MIN_GHZ}GHz, {cores} nucleos >= {CPU_MIN_CORES}"
+        reason = f"CPU turbo {turbo}GHz >= {req.cpu.min_ghz}GHz, {cores} nucleos >= {req.cpu.min_cores}"
     else:
-        reason = f"CPU turbo {turbo}GHz < {CPU_MIN_GHZ}GHz o {cores} nucleos < {CPU_MIN_CORES}"
+        reason = f"CPU turbo {turbo}GHz < {req.cpu.min_ghz}GHz o {cores} nucleos < {req.cpu.min_cores}"
 
     return meets_min, meets_rec, reason
 
 
-def check_ram(spec: ProductSpec) -> tuple[bool, bool, str]:
+def check_ram(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
     ram = spec.ram_gb
-    meets_min = ram >= RAM_MIN_GB
-    meets_rec = ram >= RAM_REC_GB
+    meets_min = ram >= req.ram_min_gb
+    meets_rec = ram >= req.ram_rec_gb
 
     if meets_rec:
-        reason = f"RAM {ram}GB ≥ {RAM_REC_GB}GB (recomendado)"
+        reason = f"RAM {ram}GB ≥ {req.ram_rec_gb}GB (recomendado)"
     elif meets_min:
-        reason = f"RAM {ram}GB ≥ {RAM_MIN_GB}GB (mínimo)"
+        reason = f"RAM {ram}GB ≥ {req.ram_min_gb}GB (mínimo)"
     else:
-        reason = f"RAM {ram}GB < {RAM_MIN_GB}GB (mínimo)"
+        reason = f"RAM {ram}GB < {req.ram_min_gb}GB (mínimo)"
 
     return meets_min, meets_rec, reason
 
 
-def check_os(spec: ProductSpec) -> tuple[bool, bool, str]:
+def check_os(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
     os = spec.os
-    meets_min = os.startswith("Windows 10") or os.startswith("Windows 11")
-    meets_rec = os.startswith("Windows 11")
+    meets_min = os.startswith(req.os_min) or os.startswith(req.os_rec)
+    meets_rec = os.startswith(req.os_rec)
 
     if meets_rec:
-        reason = "OS Windows 11 (recomendado)"
+        reason = f"OS {req.os_rec} (recomendado)"
     elif meets_min:
-        reason = "OS Windows 10 (mínimo)"
+        reason = f"OS {req.os_min} (mínimo)"
     else:
-        reason = f"OS {os} no cumple (requiere Windows 10/11)"
+        reason = f"OS {os} no cumple (requiere {req.os_min}/{req.os_rec})"
 
     return meets_min, meets_rec, reason
 
 
-def check_disk(spec: ProductSpec) -> tuple[bool, bool, str]:
+def check_disk(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
     storage_gb = spec.storage_gb
     storage_type = spec.storage_type
 
     # SSD check for small drives
     ssd_ok = True
-    if storage_gb <= SSD_REQUIRED_BELOW_GB and storage_type != "SSD":
+    if storage_gb <= req.ssd_required_below_gb and storage_type != "SSD":
         ssd_ok = False
 
-    meets_min = storage_gb >= DISK_MIN_GB and ssd_ok
-    meets_rec = storage_gb >= DISK_REC_GB and ssd_ok
+    meets_min = storage_gb >= req.disk_min_gb and ssd_ok
+    meets_rec = storage_gb >= req.disk_rec_gb and ssd_ok
 
     if not ssd_ok:
-        reason = f"Disco {storage_gb}GB {storage_type} - requiere SSD para ≤{SSD_REQUIRED_BELOW_GB}GB"
+        reason = f"Disco {storage_gb}GB {storage_type} - requiere SSD para ≤{req.ssd_required_below_gb}GB"
     elif meets_rec:
         reason = f"Disco {storage_gb}GB {storage_type} OK"
     elif meets_min:
         reason = f"Disco {storage_gb}GB {storage_type} cumple mínimo"
     else:
-        reason = f"Disco {storage_gb}GB < {DISK_MIN_GB}GB"
+        reason = f"Disco {storage_gb}GB < {req.disk_min_gb}GB"
 
     return meets_min, meets_rec, reason
 
@@ -97,19 +83,19 @@ def classify(spec: ProductSpec, req: RequirementSet) -> Classification:
     reasons = []
 
     # CPU
-    cpu_min, cpu_rec, cpu_reason = check_cpu(spec)
+    cpu_min, cpu_rec, cpu_reason = check_cpu(spec, req)
     reasons.append(cpu_reason)
 
     # RAM
-    ram_min, ram_rec, ram_reason = check_ram(spec)
+    ram_min, ram_rec, ram_reason = check_ram(spec, req)
     reasons.append(ram_reason)
 
     # OS
-    os_min, os_rec, os_reason = check_os(spec)
+    os_min, os_rec, os_reason = check_os(spec, req)
     reasons.append(os_reason)
 
     # Disk
-    disk_min, disk_rec, disk_reason = check_disk(spec)
+    disk_min, disk_rec, disk_reason = check_disk(spec, req)
     reasons.append(disk_reason)
 
     # No CPU data at all

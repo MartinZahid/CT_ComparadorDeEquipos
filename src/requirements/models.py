@@ -22,6 +22,7 @@ class RequirementSet:
     ram_rec_gb: int = 16
     disk_min_gb: int = 1
     disk_rec_gb: int = 1
+    ssd_required_below_gb: int = 128
     dotnet_version: str = "4.6.2"
 
     def to_dict(self) -> dict:

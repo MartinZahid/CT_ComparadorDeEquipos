@@ -1,5 +1,5 @@
 {
-  "fecha_generacion": "2026-07-10T09:29:28.423946",
+  "fecha_generacion": "2026-07-10T11:30:00.867173",
   "requisitos_usados": {
     "name": "default",
     "os_min": "Windows 10",
@@ -14,6 +14,7 @@
     "ram_rec_gb": 16,
     "disk_min_gb": 1,
     "disk_rec_gb": 1,
+    "ssd_required_below_gb": 128,
     "dotnet_version": "4.6.2"
   },
   "resultados": [
@@ -306,7 +307,7 @@
       "razones": [
         "CPU turbo 3.9GHz >= 3.6GHz, 18 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -360,7 +361,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 0,
@@ -441,7 +442,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -576,7 +577,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 16GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -711,7 +712,7 @@
       "razones": [
         "CPU turbo 4.0GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -792,7 +793,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB UNKNOWN OK"
       ],
       "score": 50,
@@ -846,7 +847,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -1062,7 +1063,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -1359,7 +1360,7 @@
       "razones": [
         "CPU turbo 3.9GHz >= 3.6GHz, 18 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -1386,7 +1387,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -1548,7 +1549,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -1683,7 +1684,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -1791,7 +1792,7 @@
       "razones": [
         "CPU turbo 4.6GHz >= 3.6GHz, 10 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -2277,7 +2278,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB UNKNOWN OK"
       ],
       "score": 0,
@@ -2520,7 +2521,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB UNKNOWN OK"
       ],
       "score": 50,
@@ -2763,7 +2764,7 @@
       "razones": [
         "CPU turbo 3.0GHz < 3.6GHz o 4 nucleos < 4",
         "RAM 4GB < 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 4GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -2817,7 +2818,7 @@
       "razones": [
         "CPU turbo 3.0GHz < 3.6GHz o 4 nucleos < 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 8GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -2844,7 +2845,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 64GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -2979,7 +2980,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 0,
@@ -3006,7 +3007,7 @@
       "razones": [
         "CPU turbo 4.0GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 0GB < 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -3087,7 +3088,7 @@
       "razones": [
         "CPU turbo 3.0GHz < 3.6GHz o 4 nucleos < 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 10,
@@ -3357,7 +3358,7 @@
       "razones": [
         "CPU turbo 1.6GHz < 3.6GHz o 68 nucleos < 4",
         "RAM 0GB < 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 1024GB UNKNOWN OK"
       ],
       "score": 10,
@@ -3627,7 +3628,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -3654,7 +3655,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 50,
@@ -3762,7 +3763,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB UNKNOWN OK"
       ],
       "score": 0,
@@ -3816,7 +3817,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -3897,7 +3898,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4059,7 +4060,7 @@
       "razones": [
         "CPU turbo 3.2GHz < 3.6GHz o 14 nucleos < 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -4437,7 +4438,7 @@
       "razones": [
         "CPU turbo 4.3GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 16GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4464,7 +4465,7 @@
       "razones": [
         "CPU turbo 4.6GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4491,7 +4492,7 @@
       "razones": [
         "CPU turbo 4.6GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4572,7 +4573,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 0,
@@ -4761,7 +4762,7 @@
       "razones": [
         "CPU turbo 3.2GHz < 3.6GHz o 14 nucleos < 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -4815,7 +4816,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 0,
@@ -4842,7 +4843,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4950,7 +4951,7 @@
       "razones": [
         "CPU turbo 4.6GHz >= 3.6GHz, 10 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -4977,7 +4978,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -5004,7 +5005,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -5247,7 +5248,7 @@
       "razones": [
         "CPU turbo 5.0GHz >= 3.6GHz, 8 nucleos >= 4",
         "RAM 32GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -5274,7 +5275,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 0,
@@ -5355,7 +5356,7 @@
       "razones": [
         "CPU turbo 4.0GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -5490,7 +5491,7 @@
       "razones": [
         "CPU turbo 3.0GHz < 3.6GHz o 4 nucleos < 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 256GB UNKNOWN OK"
       ],
       "score": 10,
@@ -5517,7 +5518,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB SSD OK"
       ],
       "score": 0,
@@ -5544,7 +5545,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 0,
@@ -5625,7 +5626,7 @@
       "razones": [
         "CPU turbo 3.0GHz < 3.6GHz o 4 nucleos < 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 64GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 10,
@@ -5652,7 +5653,7 @@
       "razones": [
         "CPU sin datos técnicos (no está en BD ni heurística)",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 0,
@@ -5895,7 +5896,7 @@
       "razones": [
         "CPU turbo 4.4GHz >= 3.6GHz, 10 nucleos >= 4",
         "RAM 8GB ≥ 8GB (mínimo)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 0GB UNKNOWN - requiere SSD para ≤128GB"
       ],
       "score": 50,
@@ -5922,7 +5923,7 @@
       "razones": [
         "CPU turbo 4.0GHz >= 3.6GHz, 4 nucleos >= 4",
         "RAM 16GB ≥ 16GB (recomendado)",
-        "OS Unknown no cumple (requiere Windows 10/11)",
+        "OS Unknown no cumple (requiere Windows 10/Windows 11)",
         "Disco 512GB UNKNOWN OK"
       ],
       "score": 50,
