@@ -5,13 +5,13 @@ edge-session/
 chrome-session/
 playwright-profile/
 node_modules/
-*.json
-*.csv
-*.png
-*.html
-.mjs
-.js
 
-# keep output dir but not its contents
-output/*
-!output/.gitkeep
+# Solo ignorar salidas generadas por el scraper
+/output/*
+!/output/.gitkeep
+/data/cpu_db/**
+
+# Build outputs
+dist/
+build/
+*.egg-info/
