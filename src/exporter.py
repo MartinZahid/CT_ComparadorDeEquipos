@@ -9,7 +9,7 @@ import pandas as pd
 PRIORITY_COLS = [
     "marca", "clave", "num_parte", "descripcion",
     "modelo", "categoria", "precio", "moneda",
-    "existencia", "url", "imagen",
+    "existencia", "procesador", "url", "imagen",
 ]
 
 
