@@ -17,6 +17,7 @@ from pydantic import BaseModel
 
 from src.requirements.models import CPURequirement, RequirementSet, ProductSpec, CPUInfo
 from src.requirements.classifier import classify
+from src.spec_parsing import parse_os
 
 OUTPUT_DIR = Path("output")
 CATEGORIES = ["All in One", "Laptops"]
@@ -98,7 +99,7 @@ def _product_to_spec(p: ProductIn) -> ProductSpec:
         ram_gb=p.ram_gb,
         storage_gb=p.storage_gb,
         storage_type=p.storage_type,
-        os=p.os,
+        os=parse_os(p.os),
     )
 
 
@@ -198,17 +199,16 @@ def get_products():
     products = []
     timestamps = []
 
-    if aio:
-        for r in aio["resultados"]:
-            products.append({**r, "categoria": "all-in-one", "categoriaLabel": "All in One"})
-        if aio.get("fecha_generacion"):
-            timestamps.append(aio["fecha_generacion"])
-
-    if laptops:
-        for r in laptops["resultados"]:
-            products.append({**r, "categoria": "laptops", "categoriaLabel": "Laptops"})
-        if laptops.get("fecha_generacion"):
-            timestamps.append(laptops["fecha_generacion"])
+    for dataset, slug, label in [
+        (aio, "all-in-one", "All in One"),
+        (laptops, "laptops", "Laptops"),
+    ]:
+        if dataset:
+            for r in dataset["resultados"]:
+                r["os"] = parse_os(r.get("os", ""))
+                products.append({**r, "categoria": slug, "categoriaLabel": label})
+            if dataset.get("fecha_generacion"):
+                timestamps.append(dataset["fecha_generacion"])
 
     last_updated = max(timestamps) if timestamps else None
     return {"products": products, "last_updated": last_updated}
