@@ -11,7 +11,13 @@ node_modules/
 !/output/.gitkeep
 /data/cpu_db/**
 
+# Credentials
+Tempgit-creds.txt
+
 # Build outputs
 dist/
 build/
 *.egg-info/
+
+# Test scripts
+_test_*.py

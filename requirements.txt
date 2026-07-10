@@ -2,3 +2,5 @@ cloudscraper>=1.2.0
 pandas>=2.0.0
 rapidfuzz>=3.0
 requests>=2.31
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0

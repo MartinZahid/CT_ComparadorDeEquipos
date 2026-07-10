@@ -3,6 +3,23 @@
 from dataclasses import dataclass, asdict, field
 from typing import Literal
 
+# Shared constants for spec extraction
+MIN_RAM_GB: int = 1
+MAX_RAM_GB: int = 128
+MIN_STORAGE_GB: int = 40
+
+# Preferred RAM values in order of likelihood (for ambiguous descriptions)
+PREFERRED_RAM_VALUES: tuple[int, ...] = (16, 32, 8, 64, 24, 12, 48)
+
+# Classification levels (keep in sync with web-react/src/App.jsx)
+LEVEL_RECOMMENDED = "recommended"
+LEVEL_MINIMOS = "minimos"
+LEVEL_CAPAZ = "capaz"
+LEVEL_NO_CORRE = "no_corre"
+LEVEL_SIN_CPU = "sin_datos_cpu"
+CLASSIFICATION_LEVELS = (LEVEL_RECOMMENDED, LEVEL_MINIMOS, LEVEL_CAPAZ, LEVEL_NO_CORRE, LEVEL_SIN_CPU)
+ClassificationLevel = Literal["recommended", "minimos", "capaz", "no_corre", "sin_datos_cpu"]
+
 
 @dataclass
 class CPURequirement:
@@ -56,7 +73,7 @@ class ProductSpec:
 
 @dataclass
 class Classification:
-    nivel: Literal["recommended", "minimos", "capaz", "no_corre", "sin_datos_cpu"]
+    nivel: ClassificationLevel
     puede_correr: bool
     reasons: list[str]
     score: int

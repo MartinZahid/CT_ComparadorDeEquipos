@@ -40,47 +40,27 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState(null)
   const [requirements, setRequirements] = useState(DEFAULT_REQUIREMENTS)
   const [showRequirements, setShowRequirements] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+  const [refreshOutput, setRefreshOutput] = useState('')
 
-  // Load data from JSON files
+  // Load data from API
   const loadData = async () => {
     setLoading(true)
     setError(null)
     try {
-      const [aioRes, laptopRes] = await Promise.all([
-        fetch('/comparacion-all-in-one.json?' + Date.now()).catch(() => null),
-        fetch('/comparacion-laptops.json?' + Date.now()).catch(() => null)
-      ])
+      const res = await fetch('/api/products')
+      if (!res.ok) throw new Error('Error al cargar datos del servidor')
+      const data = await res.json()
 
-      let products = []
-      let timestamps = []
-
-      if (aioRes && aioRes.ok) {
-        const aioData = await aioRes.json()
-        aioData.resultados.forEach(r => {
-          products.push({ ...r, categoria: 'all-in-one', categoriaLabel: 'All in One' })
-        })
-        if (aioData.fecha_generacion) timestamps.push(aioData.fecha_generacion)
-      }
-
-      if (laptopRes && laptopRes.ok) {
-        const laptopData = await laptopRes.json()
-        laptopData.resultados.forEach(r => {
-          products.push({ ...r, categoria: 'laptops', categoriaLabel: 'Laptops' })
-        })
-        if (laptopData.fecha_generacion) timestamps.push(laptopData.fecha_generacion)
-      }
-
-      if (products.length === 0) {
+      if (!data.products || data.products.length === 0) {
         throw new Error('No se encontraron datos. Ejecuta primero: python -m src compare --cat "All in One" --cat "Laptops"')
       }
 
-      // Classify products with current requirements
-      const classifiedProducts = classifyProducts(products, requirements)
-      
+      const classifiedProducts = classifyProducts(data.products, requirements)
       setAllProducts(classifiedProducts)
       setFilteredProducts(classifiedProducts)
-      if (timestamps.length > 0) {
-        setLastUpdated(new Date(Math.max(...timestamps.map(t => new Date(t).getTime()))))
+      if (data.last_updated) {
+        setLastUpdated(new Date(data.last_updated))
       }
     } catch (err) {
       setError(err.message)
@@ -211,7 +191,34 @@ function App() {
     applyFilters(allProducts)
   }, [allProducts, categoryFilter, statusFilter, searchQuery])
 
-  const handleRefresh = () => loadData()
+  const handleRefresh = async () => {
+    setRefreshing(true)
+    setRefreshOutput('Iniciando...')
+    try {
+      const res = await fetch('/api/refresh', { method: 'POST' })
+      const { task_id } = await res.json()
+      setRefreshOutput('Scrapeando y comparando...')
+
+      // Poll for completion
+      const poll = setInterval(async () => {
+        const statusRes = await fetch(`/api/refresh-status/${task_id}`)
+        const status = await statusRes.json()
+        if (status.status === 'done') {
+          clearInterval(poll)
+          setRefreshOutput(status.error ? `Error: ${status.error}` : '¡Datos actualizados!')
+          setRefreshing(false)
+          loadData()
+        } else if (status.output) {
+          const lines = status.output.split('\n')
+          setRefreshOutput(lines[lines.length - 1] || 'Procesando...')
+        }
+      }, 2000)
+    } catch (err) {
+      setRefreshOutput(`Error: ${err.message}`)
+      setRefreshing(false)
+    }
+  }
+
   const handleReqChange = (field, value) => {
     setRequirements(prev => {
       const keys = field.split('.')
@@ -264,9 +271,12 @@ function App() {
               🕒 Actualizado: {lastUpdated.toLocaleString()}
             </span>
           )}
-          <button className="btn-refresh" onClick={loadData}>
-            🔄 Actualizar productos
+          <button className="btn-refresh" onClick={handleRefresh} disabled={refreshing}>
+            {refreshing ? '⏳ Scrapeando...' : '🔄 Actualizar productos'}
           </button>
+          {refreshing && refreshOutput && (
+            <span className="refresh-status">{refreshOutput}</span>
+          )}
           <button className="btn-toggle" onClick={() => setShowRequirements(!showRequirements)}>
             {showRequirements ? '📋 Ocultar requisitos' : '📋 Editar requisitos'}
           </button>
@@ -407,6 +417,7 @@ function ProductCard({ product }) {
               src={product.imagen}
               alt={`${product.marca} ${product.clave}`}
               loading="lazy"
+              referrerPolicy="no-referrer"
               onError={handleImageError}
             />
             <div className="product-image placeholder" style={{ display: 'none' }}>🖥️</div>

@@ -40,16 +40,16 @@ def check_ram(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
 
 
 def check_os(spec: ProductSpec, req: RequirementSet) -> tuple[bool, bool, str]:
-    os = spec.os
-    meets_min = os.startswith(req.os_min) or os.startswith(req.os_rec)
-    meets_rec = os.startswith(req.os_rec)
+    os_name = spec.os
+    meets_min = os_name.startswith(req.os_min) or os_name.startswith(req.os_rec)
+    meets_rec = os_name.startswith(req.os_rec)
 
     if meets_rec:
         reason = f"OS {req.os_rec} (recomendado)"
     elif meets_min:
         reason = f"OS {req.os_min} (mínimo)"
     else:
-        reason = f"OS {os} no cumple (requiere {req.os_min}/{req.os_rec})"
+        reason = f"OS {os_name} no cumple (requiere {req.os_min}/{req.os_rec})"
 
     return meets_min, meets_rec, reason
 

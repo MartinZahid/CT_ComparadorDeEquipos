@@ -15,7 +15,12 @@ from src.requirements.models import RequirementSet
 from src.requirements.cpu_db import CPUDatabase
 
 
-DEFAULT_CAT = "All in One"
+DEFAULT_CATEGORY = "All in One"
+
+
+def _category_slug(category: str) -> str:
+    """Convert 'All in One' to 'all-in-one'."""
+    return category.lower().replace(" ", "-")
 
 
 def run(category: str, output_dir: Path) -> int:
@@ -29,10 +34,10 @@ def run(category: str, output_dir: Path) -> int:
     print("ok")
 
     api = CTAPI(client)
-    filt = {"categoria": [category]}
+    filters = {"categoria": [category]}
 
     print(f"[*] Categoria: {category} (todas las paginas)")
-    hits = api.fetch_all(filters=filt)
+    hits = api.fetch_all(filters=filters)
 
     if not hits:
         print("[!] No se encontraron productos")
@@ -40,13 +45,13 @@ def run(category: str, output_dir: Path) -> int:
 
     products = parse_hits(hits, client.scraper)
 
-    fecha = datetime.now().strftime("%Y-%m-%d")
-    slug = f"{category.lower().replace(' ', '-')}-{fecha}"
-    jp, cp = save(products, slug, output_dir)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    slug = f"{_category_slug(category)}-{date_str}"
+    json_path, csv_path = save(products, slug, output_dir)
 
     print(f"\n[+] TOTAL: {len(products)} equipos")
-    print(f"[+] {jp}")
-    print(f"[+] {cp}")
+    print(f"[+] {json_path}")
+    print(f"[+] {csv_path}")
     return len(products)
 
 
@@ -62,14 +67,14 @@ def compare_cmd(args):
     if args.cat:
         categories = args.cat if isinstance(args.cat, list) else [args.cat]
     else:
-        categories = [DEFAULT_CAT]
+        categories = [DEFAULT_CATEGORY]
 
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for cat in categories:
-        # Find latest JSON for this category
-        pattern = str(output_dir / f"ctonline-{cat.lower().replace(' ', '-')}-*.json")
+        slug = _category_slug(cat)
+        pattern = str(output_dir / f"ctonline-{slug}-*.json")
         files = glob.glob(pattern)
         if not files:
             print(f"[!] No hay archivo scrapeado para '{cat}'. Ejecuta el scraper primero.")
@@ -78,8 +83,7 @@ def compare_cmd(args):
         latest = max(files, key=lambda f: Path(f).stat().st_mtime)
         print(f"[*] Procesando {cat} desde {latest}")
 
-        out_name = f"comparacion-{cat.lower().replace(' ', '-')}.json"
-        out_path = output_dir / out_name
+        out_path = output_dir / f"comparacion-{slug}.json"
 
         compare_category(
             Path(latest),
@@ -91,14 +95,14 @@ def compare_cmd(args):
         # Print summary
         with open(out_path, encoding="utf-8") as f:
             data = json.load(f)
-        resumen = data["resumen"]
-        total = sum(resumen.values())
+        summary = data["resumen"]
+        total = sum(summary.values())
         print(f"[+] {cat}: {total} productos")
-        print(f"    [OK] Recomendados: {resumen.get('recommended', 0)}")
-        print(f"    [OK] Minimos: {resumen.get('minimos', 0)}")
-        print(f"    [!]  Capaces: {resumen.get('capaz', 0)}")
-        print(f"    [X] No corren: {resumen.get('no_corre', 0)}")
-        print(f"    [?] Sin datos CPU: {resumen.get('sin_datos_cpu', 0)}")
+        print(f"    [OK] Recomendados: {summary.get('recommended', 0)}")
+        print(f"    [OK] Minimos: {summary.get('minimos', 0)}")
+        print(f"    [!]  Capaces: {summary.get('capaz', 0)}")
+        print(f"    [X] No corren: {summary.get('no_corre', 0)}")
+        print(f"    [?] Sin datos CPU: {summary.get('sin_datos_cpu', 0)}")
         print(f"    [FILE] Guardado en: {out_path}")
 
 
@@ -108,7 +112,7 @@ def main():
 
     # Scraper command
     scraper_parser = subparsers.add_parser("scrape", help="Scrapear productos")
-    scraper_parser.add_argument("--cat", "--categoria", default=DEFAULT_CAT, help=f"Categoria (default: {DEFAULT_CAT})")
+    scraper_parser.add_argument("--cat", "--categoria", default=DEFAULT_CATEGORY, help=f"Categoria (default: {DEFAULT_CATEGORY})")
     scraper_parser.add_argument("--output", "-o", default="./output", help="Carpeta de salida")
 
     # Compare command
