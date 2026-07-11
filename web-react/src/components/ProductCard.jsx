@@ -14,8 +14,17 @@ const STATUS_CLASSES = {
   sin_datos_cpu: 'status-sin_datos_cpu'
 }
 
+const CARD_BORDER = {
+  recommended: 'card-rec',
+  minimos: 'card-min',
+  capaz: 'card-capaz',
+  no_corre: 'card-no',
+  sin_datos_cpu: 'card-sin'
+}
+
 function ProductCard({ product }) {
   const statusClass = STATUS_CLASSES[product.nivel] || 'status-sin_datos_cpu'
+  const cardBorder = CARD_BORDER[product.nivel] || 'card-sin'
   const statusLabel = STATUS_LABELS[product.nivel] || product.nivel
 
   const specs = [
@@ -31,7 +40,7 @@ function ProductCard({ product }) {
   }
 
   return (
-    <article className="product-card">
+    <article className={`product-card ${cardBorder}`}>
       <div className="product-image-wrapper">
         {product.imagen ? (
           <>

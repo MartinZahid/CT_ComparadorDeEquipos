@@ -135,6 +135,11 @@ function App() {
     return () => { if (classifyTimer.current) clearTimeout(classifyTimer.current) }
   }, [requirements])
 
+  const showToast = (msg, duration = 5000) => {
+    setRefreshOutput(msg)
+    if (duration > 0) setTimeout(() => setRefreshOutput(''), duration)
+  }
+
   const handleRefresh = async () => {
     setRefreshing(true)
     setRefreshOutput('Iniciando...')
@@ -142,8 +147,8 @@ function App() {
       const res = await fetch('/api/refresh', { method: 'POST' })
       if (res.status === 429) {
         const err = await res.json()
-        setRefreshOutput(err.detail || 'Espera antes de recargar')
         setRefreshing(false)
+        showToast(err.detail || 'Espera antes de recargar')
         return
       }
       const { task_id } = await res.json()
@@ -153,8 +158,9 @@ function App() {
         const status = await statusRes.json()
         if (status.status === 'done') {
           clearInterval(poll)
-          setRefreshOutput(status.error ? `Error: ${status.error}` : 'Datos actualizados')
           setRefreshing(false)
+          const msg = status.error ? `Error: ${status.error}` : 'Datos actualizados'
+          showToast(msg)
           loadData()
         } else if (status.output) {
           const lines = status.output.split('\n')
@@ -162,8 +168,8 @@ function App() {
         }
       }, 2000)
     } catch (err) {
-      setRefreshOutput(`Error: ${err.message}`)
       setRefreshing(false)
+      showToast(`Error: ${err.message}`)
     }
   }
 
@@ -214,6 +220,10 @@ function App() {
         onRefresh={handleRefresh}
         onToggleRequirements={() => setShowRequirements(!showRequirements)}
       />
+
+      {refreshOutput && !refreshing && (
+        <div className="refresh-toast">{refreshOutput}</div>
+      )}
 
       {showRequirements && (
         <RequirementsPanel
